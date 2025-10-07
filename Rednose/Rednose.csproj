@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Assets\LOGO.png" />
+    <None Remove="Resources\Assets\LOGO2.png" />
+    <None Remove="Resources\Assets\Poppins-ExtraBold.ttf" />
+    <None Remove="Resources\Assets\shape_predictor_68_face_landmarks.dat" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Assets\shape_predictor_68_face_landmarks.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DlibDotNet" Version="19.21.0.20220724" />
+    <PackageReference Include="OpenCvSharp4" Version="4.11.0.20250507" />
+    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.11.0.20250507" />
+    <PackageReference Include="OpenCvSharp4.WpfExtensions" Version="4.11.0.20250507" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Assets\LOGO.png" />
+    <Resource Include="Resources\Assets\LOGO2.png" />
+    <Resource Include="Resources\Assets\Poppins-ExtraBold.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\PhotoInputView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+</Project>

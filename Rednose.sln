@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rednose", "Rednose\Rednose.csproj", "{3251811C-4058-47AC-B6BF-362B5A08CB7F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3251811C-4058-47AC-B6BF-362B5A08CB7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3251811C-4058-47AC-B6BF-362B5A08CB7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3251811C-4058-47AC-B6BF-362B5A08CB7F}.Debug|x64.ActiveCfg = Debug|x64
+		{3251811C-4058-47AC-B6BF-362B5A08CB7F}.Debug|x64.Build.0 = Debug|x64
+		{3251811C-4058-47AC-B6BF-362B5A08CB7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3251811C-4058-47AC-B6BF-362B5A08CB7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3251811C-4058-47AC-B6BF-362B5A08CB7F}.Release|x64.ActiveCfg = Release|x64
+		{3251811C-4058-47AC-B6BF-362B5A08CB7F}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C012083-2B1E-4D91-AEF7-69372C35A78E}
+	EndGlobalSection
+EndGlobal

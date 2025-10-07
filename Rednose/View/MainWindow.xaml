@@ -1,0 +1,329 @@
+﻿<Window x:Class="APR_Rednose.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:view="clr-namespace:APR_Rednose.View"
+        xmlns:helpers="clr-namespace:APR_Rednose.Helpers"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        mc:Ignorable="d"
+        Title="PHOT•GRAY"
+        Width="1100" Height="700"
+        Background="Transparent"
+        WindowStyle="None" ResizeMode="CanResize"
+        AllowsTransparency="False">
+
+    <!-- 창 리사이즈/라운드용 WindowChrome -->
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="0"
+                            ResizeBorderThickness="6"
+                            CornerRadius="20"
+                            GlassFrameThickness="0"/>
+    </shell:WindowChrome.WindowChrome>
+    <Window.Resources>
+        <!-- 페이지 전환용 컨버터 -->
+        <helpers:PageToVisibilityConverter x:Key="PageToVisibility"/>
+
+        <!-- 폰트: Poppins-ExtraBold.ttf (Build Action=Resource) -->
+        <FontFamily x:Key="PoppinsBold">
+            pack://application:,,,/Resources/Assets/Poppins-ExtraBold.ttf#Poppins
+        </FontFamily>
+
+        <!-- 좌측 탭 공통 스타일 -->
+        <Style x:Key="SideTabButton" TargetType="Button">
+            <Setter Property="FontFamily" Value="{StaticResource PoppinsBold}"/>
+            <Setter Property="FontSize" Value="34"/>
+            <Setter Property="Foreground" Value="#111"/>
+            <Setter Property="Background" Value="#F3F3F3"/>
+            <Setter Property="Padding" Value="20,18"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <!-- 선택/비선택 색상 -->
+        <Style x:Key="CameraTabStyle" BasedOn="{StaticResource SideTabButton}" TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding CurrentPage}" Value="Camera">
+                    <Setter Property="Background" Value="#000"/>
+                    <Setter Property="Foreground" Value="#FFF"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ImageTabStyle" BasedOn="{StaticResource SideTabButton}" TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding CurrentPage}" Value="Image">
+                    <Setter Property="Background" Value="#000"/>
+                    <Setter Property="Foreground" Value="#FFF"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- 툴바 버튼 공통 스타일 -->
+        <Style x:Key="ToolbarButton" TargetType="Button">
+            <Setter Property="FontFamily" Value="{StaticResource PoppinsBold}"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#00000000"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="Margin" Value="8,8,0,0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <!-- hover/disabled 시각 효과 -->
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="0.9"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.4"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+
+    <!-- 전체 라운드 박스 -->
+    <Border CornerRadius="40" Background="#111" Padding="1" SnapsToDevicePixels="True">
+        <Border CornerRadius="40" Background="#111">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="240"/>
+                    <!-- 좌측 메뉴 -->
+                    <ColumnDefinition Width="*"/>
+                    <!-- 우측 콘텐츠 -->
+                </Grid.ColumnDefinitions>
+
+                <!-- 좌측 사이드 -->
+                <Grid Grid.Column="0" Background="#F3F3F3" ClipToBounds="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="59"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <!-- 로고 -->
+                    <StackPanel Orientation="Horizontal" Margin="0,18,0,0" HorizontalAlignment="Center" Width="220">
+                        <Image Source="pack://application:,,,/Resources/Assets/LOGO2.png"
+                               Height="81" Stretch="Uniform" Width="220"/>
+                    </StackPanel>
+
+                    <!-- 탭 -->
+                    <Grid Grid.Row="1" Margin="0,10,0,0" Cursor="">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Button Grid.Row="0"
+            Content="CAMERA"
+            Click="OnGoCamera"
+            Style="{StaticResource CameraTabStyle}"
+            Margin="0,0,0,307" Cursor="Hand" Grid.RowSpan="2"/>
+
+                        <Button Grid.Row="1"
+            Content="IMAGE"
+            Click="OnGoImage"
+            Style="{StaticResource ImageTabStyle}"/>
+                    </Grid>
+                </Grid>
+
+                <!-- 우측 콘텐츠 영역 -->
+                <Grid Grid.Column="1" Background="#000">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="70"/>
+                        <!-- 상단 툴바 -->
+                        <RowDefinition Height="*"/>
+                        <!-- 컨텐츠 -->
+                    </Grid.RowDefinitions>
+
+                    <!-- [드래그 핸들] : 툴바 영역만, 맨 먼저 선언하여 뒤로 깔기 -->
+                    <Border Grid.Row="0"
+                            Background="Transparent"
+                            MouseLeftButtonDown="OnDragWindow"/>
+
+                    <!-- 상단 툴바 -->
+                    <Grid Grid.Row="0">
+                        <!-- Camera 전용 툴바 -->
+                        <StackPanel Orientation="Horizontal"
+                Visibility="{Binding CurrentPage, Converter={StaticResource PageToVisibility}, ConverterParameter=Camera}">
+                            <!-- Capture: 녹화 중 비활성 -->
+                            <Button Content="Capture"
+                Command="{Binding CameraVM.CaptureCommand}">
+                                <Button.Style>
+                                    <Style BasedOn="{StaticResource ToolbarButton}" TargetType="Button">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CameraVM.IsRecording}" Value="True">
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+
+                            <!-- REC: 녹화 중 비활성 -->
+                            <Button Content="REC"
+                Command="{Binding CameraVM.StartRecordingCommand}">
+                                <Button.Style>
+                                    <Style BasedOn="{StaticResource ToolbarButton}" TargetType="Button">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CameraVM.IsRecording}" Value="True">
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+
+                            <!-- Stop: 녹화 중에만 활성 -->
+                            <Button Content="Stop"
+                Command="{Binding CameraVM.StopRecordingCommand}">
+                                <Button.Style>
+                                    <Style BasedOn="{StaticResource ToolbarButton}" TargetType="Button">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CameraVM.IsRecording}" Value="True">
+                                                <Setter Property="IsEnabled" Value="True"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+
+                            <!-- Flip: 녹화 중 비활성 -->
+                            <Button Content="Flip"
+                Command="{Binding CameraVM.ToggleMirrorCommand}">
+                                <Button.Style>
+                                    <Style BasedOn="{StaticResource ToolbarButton}" TargetType="Button">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CameraVM.IsRecording}" Value="True">
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </StackPanel>
+
+                        <!-- Image 전용 툴바 -->
+                        <StackPanel Orientation="Horizontal"
+                Visibility="{Binding CurrentPage, Converter={StaticResource PageToVisibility}, ConverterParameter=Image}">
+                            <Button Content="Import"
+                Style="{StaticResource ToolbarButton}"
+                Command="{Binding PhotoVM.OpenCommand}"/>
+                            <Button Content="Save"
+                Style="{StaticResource ToolbarButton}"
+                Command="{Binding PhotoVM.SaveCommand}"/>
+                        </StackPanel>
+                    </Grid>
+
+
+                    <!-- X 버튼 -->
+                    <Button Width="34" Height="34"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Margin="0,10,10,0"
+                            Background="#00000000"
+                            BorderThickness="0"
+                            ToolTip="Close"
+                            Click="OnBack">
+                        <Grid>
+                            <Rectangle Width="18" Height="2" Fill="White" RenderTransformOrigin="0.5,0.5">
+                                <Rectangle.RenderTransform>
+                                    <RotateTransform Angle="45"/>
+                                </Rectangle.RenderTransform>
+                            </Rectangle>
+                            <Rectangle Width="18" Height="2" Fill="White" RenderTransformOrigin="0.5,0.5">
+                                <Rectangle.RenderTransform>
+                                    <RotateTransform Angle="-45"/>
+                                </Rectangle.RenderTransform>
+                            </Rectangle>
+                        </Grid>
+                    </Button>
+
+                    <!-- Camera 화면 (Shrink 없는 붉은 테두리 + 카운트다운 + 큰 REC 배지) -->
+                    <Grid Grid.Row="1">
+                        <!-- DataContext를 MainWindow(DataContext=MainViewModel)로 고정 -->
+                        <Grid.DataContext>
+                            <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        </Grid.DataContext>
+
+                        <!-- 1) 모서리 둥근 클리핑 컨테이너: 실제 프리뷰와 오버레이를 담음 -->
+                        <Border SnapsToDevicePixels="True" ClipToBounds="True"
+            Visibility="{Binding CurrentPage, Converter={StaticResource PageToVisibility}, ConverterParameter=Camera}">
+                            <Grid>
+                                <!-- 1-1) 카메라 프리뷰 (이 컨트롤만 CameraVM으로 바인딩) -->
+                                <view:CameraView DataContext="{Binding CameraVM}"/>
+
+                                <!-- 1-2) 중앙 카운트다운 3-2-1 -->
+                                <TextBlock Text="{Binding CameraVM.CountdownText}"
+                       FontFamily="{StaticResource PoppinsBold}"
+                       FontSize="110"
+                       Foreground="White"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Panel.ZIndex="10">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CameraVM.IsCountingDown}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect BlurRadius="18" ShadowDepth="0" Color="Black" Opacity="0.8"/>
+                                    </TextBlock.Effect>
+                                </TextBlock>
+
+                                <!-- 1-3) 큰 REC 배지 (카메라 화면 우측 상단) -->
+                                <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="0,16,16,0"
+                        Panel.ZIndex="10">
+                                    <StackPanel.Style>
+                                        <Style TargetType="StackPanel">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CameraVM.IsRecording}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
+                                    <Ellipse Width="18" Height="18" Fill="Red" Margin="0,0,8,0"/>
+                                    <TextBlock Text="REC" Foreground="Red"
+                           FontFamily="{StaticResource PoppinsBold}"
+                           FontSize="28"/>
+                                </StackPanel>
+
+                                <!-- 1-4) 붉은 테두리(오버레이) : Rectangle은 레이아웃을 줄이지 않음 -->
+                                <Rectangle Stroke="Red" StrokeThickness="4" Fill="{x:Null}"
+                       Stretch="Fill"
+                       IsHitTestVisible="False"
+                       Panel.ZIndex="9">
+                                    <Rectangle.Style>
+                                        <Style TargetType="Rectangle">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CameraVM.IsRecording}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Rectangle.Style>
+                                </Rectangle>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <!-- Image 화면 -->
+                    <view:PhotoInputView Grid.Row="1"
+                     DataContext="{Binding PhotoVM}"
+                     Visibility="{Binding CurrentPage, Converter={StaticResource PageToVisibility}, ConverterParameter=Image}" Margin="0,5,0,0"/>
+                </Grid>
+            </Grid>
+        </Border>
+    </Border>
+</Window>

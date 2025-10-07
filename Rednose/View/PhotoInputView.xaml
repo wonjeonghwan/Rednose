@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="APR_Rednose.View.PhotoInputView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Background="Transparent">
+    <!-- 불러온 이미지 한 장을 보기 좋게 표시 -->
+    <Grid Background="Transparent">
+        <Image Source="{Binding Image}"
+               Stretch="Uniform"
+               SnapsToDevicePixels="True"
+               UseLayoutRounding="True"/>
+    </Grid>
+</UserControl>
