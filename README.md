@@ -54,7 +54,7 @@
 
 ### 2. 비전 파이프라인 구현
 - 웹캠 입력: ICameraService → OpenCv VideoCapture 이벤트로 프레임 수신
-- 얼굴 검출: OpenCV Haar 기반 bbox 검출, 
+- 얼굴 검출: Dlib HOG 기반 Froatal Face Detector
 - 랜드마크 검출: Dlib shape_predictor_68_face_landmarks.dat로 Nose Tip / Nostril 추출
 - 검출주기 : 50ms
 - 옵티컬 플로우 추적: Cv2.CalcOpticalFlowPyrLK로 프레임 간 Nose/Nostril 위치 보정
